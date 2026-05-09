@@ -1,72 +1,55 @@
+// src/App.jsx
+
 import { useState } from "react";
-import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+
+import Dashboard from "./pages/Dashboard";
 import Unpaid from "./pages/Unpaid";
 import Paid from "./pages/Paid";
-import AddStudent from "./pages/AddStudent";
+import Students from "./pages/Students";
+import StudentDetails from "./pages/StudentDetails";
+
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+
 import "./App.css";
 
 function App() {
-  const correctPin = "5678"; 
-  const [pin, setPin] = useState("");
-  const [isUnlocked, setIsUnlocked] = useState(
-    localStorage.getItem("unlocked") === "true"
-  );
-
-
-  const handleUnlock = () => {
-    if (pin === correctPin) {
-      setIsUnlocked(true);
-      localStorage.setItem("unlocked", "true");
-    } else {
-      alert("Wrong PIN");
-    }
-  };
-
-  // 🔒 LOCK SCREEN
-  if (!isUnlocked) {
-    return (
-      <div className="lock-screen">
-        <div className="lock-box">
-          <h2>🔒 Enter PIN</h2>
-
-          <input
-            type="password"
-            placeholder="Enter PIN"
-            value={pin}
-            onChange={(e) => setPin(e.target.value)}
-          />
-
-          <button onClick={handleUnlock}>Unlock</button>
-        </div>
-      </div>
-    );
-  }
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <BrowserRouter>
-      <div className="container">
+      <div className="app-layout">
 
-        <h1 className="title">🎵 Naad-Brahma</h1>
-        <p className="subtitle">Music Classes Management</p>
+        <Sidebar
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+        />
 
-        <div className="nav">
-          <NavLink to="/" end className={({ isActive }) => isActive ? "active" : ""}>
-            Unpaid
-          </NavLink>
-          <NavLink to="/paid" className={({ isActive }) => isActive ? "active" : ""}>
-            Paid
-          </NavLink>
-          <NavLink to="/add" className={({ isActive }) => isActive ? "active" : ""}>
-            Add
-          </NavLink>
+        <div className="main-content">
+
+          <Navbar setSidebarOpen={setSidebarOpen} />
+
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+
+            <Route path="/unpaid" element={<Unpaid />} />
+
+            <Route path="/paid" element={<Paid />} />
+
+            <Route path="/students" element={<Students />} />
+
+            <Route
+              path="/student/:id"
+              element={<StudentDetails />}
+            />
+          </Routes>
+
         </div>
-
-        <Routes>
-          <Route path="/" element={<Unpaid />} />
-          <Route path="/paid" element={<Paid />} />
-          <Route path="/add" element={<AddStudent />} />
-        </Routes>
-
       </div>
     </BrowserRouter>
   );

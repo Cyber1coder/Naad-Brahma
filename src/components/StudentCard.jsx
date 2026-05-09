@@ -1,49 +1,36 @@
-function StudentCard({ student, markPaid, deleteStudent }) {
+// src/components/StudentCard.jsx
+
+import { Link } from "react-router-dom";
+
+function StudentCard({ student, deleteStudent }) {
   return (
-    <div className="card">
-      <div className="card-top">
-        <div className="student-name">{student.name}</div>
-        <div className="student-info">
-          {student.course} • ₹{student.fee}
-        </div>
-        <span className="badge">Unpaid</span>
+    <div className="student-card">
+
+      <div>
+        <h3>{student.name}</h3>
+
+        <p>
+          {student.course} • ₹{student.monthly_fee}
+        </p>
       </div>
 
-      <div className="button-group">
-        <button
-          className="cash-btn"
-          onClick={() => markPaid(student.id, "Cash")}
-        >
-          Cash
-        </button>
+      <div className="student-actions">
 
-        <button
-          className="upi-btn"
-          onClick={() => markPaid(student.id, "UPI")}
-        >
-          UPI
-        </button>
+        <Link to={`/student/${student.id}`}>
+          <button className="view-btn">
+            View
+          </button>
+        </Link>
 
         <button
           className="delete-btn"
           onClick={() => deleteStudent(student.id)}
         >
-          ✕
+          Delete
         </button>
-      </div>
-      <div className="card">
-  <div>
-    <div className="student-name">{student.name}</div>
-    <div className="student-info">
-      {student.course} • ₹{student.fee}
-    </div>
-    <span className="badge">Unpaid</span>
-  </div>
 
-  <div className="button-group">
-    ...
-  </div>
-</div>
+      </div>
+
     </div>
   );
 }
