@@ -24,15 +24,15 @@ function App() {
   const [sidebarOpen, setSidebarOpen] =
     useState(false);
 
-  const [pin, setPin] = useState("");
+  const [pin, setPin] =
+    useState("");
+
+  // ALWAYS LOCKED INITIALLY
 
   const [isUnlocked, setIsUnlocked] =
-    useState(
-      localStorage.getItem("unlocked")
-      === "true"
-    );
+    useState(false);
 
-  // 🔒 PIN HERE
+  // 🔒 PIN
 
   const correctPin = "5678";
 
@@ -41,11 +41,6 @@ function App() {
     if (pin === correctPin) {
 
       setIsUnlocked(true);
-
-      localStorage.setItem(
-        "unlocked",
-        "true"
-      );
 
     } else {
 
@@ -56,47 +51,50 @@ function App() {
 
   // LOCK SCREEN
 
-if (!isUnlocked) {
+  if (!isUnlocked) {
 
-  return (
+    return (
 
-    <div className="lock-screen">
+      <div className="lock-screen">
 
-      <div className="lock-box">
+        <div className="lock-box">
 
-        <div className="lock-logo">
-          🎵 Music Fees Management
+          <div className="lock-logo">
+            🎵 Music Fees Management
+          </div>
+
+          <h1 className="marathi-title">
+            नादब्रह्म
+          </h1>
+
+          <p className="lock-subtitle">
+            Secure access for student
+            fee management system
+          </p>
+
+          <input
+            type="password"
+            placeholder="Enter PIN"
+            value={pin}
+            onChange={(e) =>
+              setPin(e.target.value)
+            }
+          />
+
+          <button onClick={handleUnlock}>
+            Unlock Dashboard
+          </button>
+
         </div>
 
-        <h1 className="marathi-title">
-          नादब्रह्म
-        </h1>
-
-        <p className="lock-subtitle">
-          Secure access for student
-          fee management system
-        </p>
-
-        <input
-          type="password"
-          placeholder="Enter PIN"
-          value={pin}
-          onChange={(e) =>
-            setPin(e.target.value)
-          }
-        />
-
-        <button onClick={handleUnlock}>
-          Unlock Dashboard
-        </button>
-
       </div>
+    );
+  }
 
-    </div>
-  );
-}
+  // MAIN APP
 
   return (
+
     <BrowserRouter>
 
       <div className="app-layout">
