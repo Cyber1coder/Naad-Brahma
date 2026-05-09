@@ -2,39 +2,46 @@ import { Link } from "react-router-dom";
 
 function Dashboard() {
   return (
-    <div>
+    <div className="dashboard-page">
 
-      {/* HERO SECTION */}
-      <div className="hero-section">
+      {/* HERO */}
+
+      <section className="hero-section">
+
+        <div className="hero-noise"></div>
 
         <div className="hero-content">
 
-          <span className="hero-badge">
-            🎵 Music Management System
-          </span>
+          <div className="hero-badge">
+            ✨ A SANCTUARY OF SOUND
+          </div>
 
-          <h1>
-            Welcome to <br />
-            Naad-Brahma
+          <h1 className="hero-title">
+            Where Tradition
+            <br />
+            Meets <span>Rhythm</span>
           </h1>
 
-          <p>
-            Manage students, monthly fees,
-            payment history and records
-            with a clean modern dashboard.
+          <p className="hero-text">
+            A refined dashboard crafted for
+            Naad-Brahma — manage your
+            students, track monthly fees,
+            and orchestrate every branch
+            of your music academy with
+            effortless elegance.
           </p>
 
           <div className="hero-buttons">
 
             <Link to="/students">
               <button className="primary-btn">
-                Manage Students
+                Manage Students →
               </button>
             </Link>
 
             <Link to="/unpaid">
               <button className="secondary-btn">
-                View Unpaid
+                Record Payment
               </button>
             </Link>
 
@@ -42,54 +49,147 @@ function Dashboard() {
 
         </div>
 
-        <div className="hero-card">
+        {/* WAVES */}
 
-          <div className="mini-card">
-            <h3>🎼 Tabla</h3>
-            <p>Track monthly payments</p>
+        <div className="wave wave1"></div>
+        <div className="wave wave2"></div>
+        <div className="wave wave3"></div>
+        <div className="wave wave4"></div>
+
+      </section>
+
+      {/* STATS */}
+
+      <section className="stats-grid">
+
+        <div className="stat-card">
+
+          <div className="stat-icon">
+            👨‍🎓
           </div>
 
-          <div className="mini-card">
-            <h3>🎶 Flute</h3>
-            <p>Manage students easily</p>
+          <div>
+            <h2>101</h2>
+            <p>ACTIVE STUDENTS</p>
           </div>
 
         </div>
 
-      </div>
+        
 
-      {/* FEATURES */}
+        <div className="stat-card">
 
-      <div className="features-grid">
+          <div className="stat-icon">
+            🎵
+          </div>
 
-        <div className="feature-card">
-          <h3>📚 Student Records</h3>
+          <div>
+            <h2>3+</h2>
+            <p>INSTRUMENTS</p>
+          </div>
 
-          <p>
-            Store and manage all students
-            in one organized place.
-          </p>
         </div>
 
-        <div className="feature-card">
-          <h3>💳 Monthly Payments</h3>
+       
 
-          <p>
-            Track paid and unpaid fees
-            every month.
-          </p>
+      </section>
+
+      {/* INSTRUMENTS */}
+
+      <section className="instrument-section">
+
+        <div className="instrument-header">
+
+          <span>
+            THE TRINITY
+          </span>
+
+          <h2>
+            Our Instruments
+          </h2>
+
         </div>
 
-        <div className="feature-card">
-          <h3>📊 Payment History</h3>
+        <div className="instrument-grid">
 
-          <p>
-            Access complete payment
-            history for every student.
-          </p>
+          {/* TABLA */}
+
+          <div className="instrument-card tabla-card">
+
+            <div className="instrument-icon tabla">
+              ♪
+            </div>
+
+            <h3>
+              Tabla
+            </h3>
+
+            <h4>
+              The heartbeat of rhythm
+            </h4>
+
+            <p>
+              Master the intricate taals
+              and bols of India's most
+              expressive percussion
+              tradition.
+            </p>
+
+          </div>
+
+          {/* FLUTE */}
+
+          <div className="instrument-card flute-card">
+
+            <div className="instrument-icon flute">
+              ♫
+            </div>
+
+            <h3>
+              Flute
+            </h3>
+
+            <h4>
+              Breath of the divine
+            </h4>
+
+            <p>
+              Discover the meditative
+              melodies of the bansuri,
+              an instrument as old as
+              time itself.
+            </p>
+
+          </div>
+
+          {/* SITAR */}
+
+          <div className="instrument-card sitar-card">
+
+            <div className="instrument-icon sitar">
+              ♬
+            </div>
+
+            <h3>
+              Sitar
+            </h3>
+
+            <h4>
+              Strings of the soul
+            </h4>
+
+            <p>
+              Learn the ragas and refined
+              techniques that define India's
+              most iconic stringed
+              instrument.
+            </p>
+
+          </div>
+
         </div>
 
-      </div>
+      </section>
 
     </div>
   );

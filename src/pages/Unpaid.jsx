@@ -11,33 +11,38 @@ function Unpaid() {
   const [branchFilter, setBranchFilter] =
     useState("All");
 
+  const [selectedMonth, setSelectedMonth] =
+    useState(
+      new Date().getMonth() + 1
+    );
+
+  const [selectedYear, setSelectedYear] =
+    useState(
+      new Date().getFullYear()
+    );
+
   useEffect(() => {
     fetchUnpaidStudents();
-  }, []);
+  }, [
+    selectedMonth,
+    selectedYear,
+  ]);
+
+  // FETCH
 
   const fetchUnpaidStudents = async () => {
-
-    const currentMonth =
-      new Date().getMonth() + 1;
-
-    const currentYear =
-      new Date().getFullYear();
-
-    // STUDENTS
 
     const { data: studentsData } =
       await supabase
         .from("students")
         .select("*");
 
-    // PAYMENTS
-
     const { data: paymentsData } =
       await supabase
         .from("payments")
         .select("*")
-        .eq("month", currentMonth)
-        .eq("year", currentYear);
+        .eq("month", selectedMonth)
+        .eq("year", selectedYear);
 
     const paidStudentIds =
       paymentsData.map(
@@ -63,12 +68,6 @@ function Unpaid() {
     paymentMode
   ) => {
 
-    const currentMonth =
-      new Date().getMonth() + 1;
-
-    const currentYear =
-      new Date().getFullYear();
-
     const { error } =
       await supabase
         .from("payments")
@@ -76,8 +75,9 @@ function Unpaid() {
           {
             student_id: student.id,
 
-            month: currentMonth,
-            year: currentYear,
+            month: selectedMonth,
+
+            year: selectedYear,
 
             total_fee:
               student.monthly_fee,
@@ -93,8 +93,13 @@ function Unpaid() {
         ]);
 
     if (error) {
+
+      alert(
+        "Payment already exists"
+      );
+
       console.log(error);
-      alert("Payment failed");
+
       return;
     }
 
@@ -120,11 +125,69 @@ function Unpaid() {
         Unpaid Students
       </h1>
 
-      {/* FILTER */}
+      {/* FILTERS */}
+
+      <div className="filters-row">
+
+        <select
+          value={selectedMonth}
+          onChange={(e) =>
+            setSelectedMonth(
+              Number(e.target.value)
+            )
+          }
+        >
+
+          {[...Array(12)].map(
+            (_, i) => (
+
+              <option
+                key={i + 1}
+                value={i + 1}
+              >
+                Month {i + 1}
+              </option>
+
+            )
+          )}
+
+        </select>
+
+        <select
+          value={selectedYear}
+          onChange={(e) =>
+            setSelectedYear(
+              Number(e.target.value)
+            )
+          }
+        >
+
+          {[2025,2026,2027,2028]
+            .map((year) => (
+
+              <option
+                key={year}
+                value={year}
+              >
+                {year}
+              </option>
+
+            ))}
+
+        </select>
+
+      </div>
+
+      {/* BRANCH FILTER */}
 
       <div className="branch-filter">
 
         <button
+          className={
+            branchFilter === "All"
+            ? "active"
+            : ""
+          }
           onClick={() =>
             setBranchFilter("All")
           }
@@ -133,6 +196,12 @@ function Unpaid() {
         </button>
 
         <button
+          className={
+            branchFilter ===
+            "Shahupuri"
+            ? "active"
+            : ""
+          }
           onClick={() =>
             setBranchFilter(
               "Shahupuri"
@@ -143,6 +212,12 @@ function Unpaid() {
         </button>
 
         <button
+          className={
+            branchFilter ===
+            "Sane Guruji"
+            ? "active"
+            : ""
+          }
           onClick={() =>
             setBranchFilter(
               "Sane Guruji"
@@ -171,17 +246,20 @@ function Unpaid() {
               </h3>
 
               <p>
-                🎵 {student.instrument}
+                🎵
+                {" "}
+                {student.instrument}
               </p>
 
               <p>
-                🏢 {student.branch}
+                🏢
+                {" "}
+                {student.branch}
               </p>
 
               <p>
-                ₹{
-                  student.monthly_fee
-                }
+                ₹
+                {student.monthly_fee}
               </p>
 
               <div className="payment-buttons">

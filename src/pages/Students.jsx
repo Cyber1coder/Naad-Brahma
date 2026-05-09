@@ -61,56 +61,54 @@ function Students() {
 
   // ADD STUDENT
 
-  const addStudent = async () => {
+const addStudent = async () => {
 
-    if (
-      !name ||
-      !dob ||
-      !address ||
-      !phone ||
-      !instrument ||
-      !branch ||
-      !startDate ||
-      !fee
-    ) {
-      alert("Fill all fields");
-      return;
-    }
+  if (
+    !name ||
+    !dob ||
+    !address ||
+    !phone ||
+    !instrument ||
+    !branch ||
+    !startDate ||
+    !fee
+  ) {
+    alert("Fill all fields");
+    return;
+  }
 
-    const { error } =
-      await supabase
-        .from("students")
-        .insert([
-          {
-            name,
-            dob,
-            address,
-            phone,
-            instrument,
-            branch,
-            start_date: startDate,
-            monthly_fee: fee,
-          },
-        ]);
+  const { error } =
+    await supabase
+      .from("students")
+      .insert([
+        {
+          name,
+          dob,
+          address,
+          phone,
+          instrument,
+          branch,
+          start_date: startDate,
+          monthly_fee: fee,
+        },
+      ]);
 
-    if (error) {
-      console.log(error);
-      return;
-    }
+  if (error) {
+    console.log(error);
+    return;
+  }
 
-    // CLEAR
+  fetchStudents();
 
-    setName("");
-    setDob("");
-    setAddress("");
-    setPhone("");
-    setInstrument("");
-    setBranch("");
-    setStartDate("");
-    setFee("");
-
-    fetchStudents();
-  };
+  setName("");
+  setDob("");
+  setAddress("");
+  setPhone("");
+  setInstrument("");
+  setBranch("");
+  setStartDate("");
+  setFee("");
+};
 
   // DELETE
 
