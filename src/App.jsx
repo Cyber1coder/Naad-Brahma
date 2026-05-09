@@ -1,6 +1,7 @@
 // src/App.jsx
 
 import { useState } from "react";
+
 import {
   BrowserRouter,
   Routes,
@@ -19,10 +20,85 @@ import Sidebar from "./components/Sidebar";
 import "./App.css";
 
 function App() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [sidebarOpen, setSidebarOpen] =
+    useState(false);
+
+  const [pin, setPin] = useState("");
+
+  const [isUnlocked, setIsUnlocked] =
+    useState(
+      localStorage.getItem("unlocked")
+      === "true"
+    );
+
+  // 🔒 PIN HERE
+
+  const correctPin = "5678";
+
+  const handleUnlock = () => {
+
+    if (pin === correctPin) {
+
+      setIsUnlocked(true);
+
+      localStorage.setItem(
+        "unlocked",
+        "true"
+      );
+
+    } else {
+
+      alert("Wrong PIN");
+
+    }
+  };
+
+  // LOCK SCREEN
+
+if (!isUnlocked) {
+
+  return (
+
+    <div className="lock-screen">
+
+      <div className="lock-box">
+
+        <div className="lock-logo">
+          🎵 Music Fees Management
+        </div>
+
+        <h1 className="marathi-title">
+          नादब्रह्म
+        </h1>
+
+        <p className="lock-subtitle">
+          Secure access for student
+          fee management system
+        </p>
+
+        <input
+          type="password"
+          placeholder="Enter PIN"
+          value={pin}
+          onChange={(e) =>
+            setPin(e.target.value)
+          }
+        />
+
+        <button onClick={handleUnlock}>
+          Unlock Dashboard
+        </button>
+
+      </div>
+
+    </div>
+  );
+}
 
   return (
     <BrowserRouter>
+
       <div className="app-layout">
 
         <Sidebar
@@ -32,25 +108,43 @@ function App() {
 
         <div className="main-content">
 
-          <Navbar setSidebarOpen={setSidebarOpen} />
+          <Navbar
+            setSidebarOpen={setSidebarOpen}
+          />
 
           <Routes>
-            <Route path="/" element={<Dashboard />} />
 
-            <Route path="/unpaid" element={<Unpaid />} />
+            <Route
+              path="/"
+              element={<Dashboard />}
+            />
 
-            <Route path="/paid" element={<Paid />} />
+            <Route
+              path="/unpaid"
+              element={<Unpaid />}
+            />
 
-            <Route path="/students" element={<Students />} />
+            <Route
+              path="/paid"
+              element={<Paid />}
+            />
+
+            <Route
+              path="/students"
+              element={<Students />}
+            />
 
             <Route
               path="/student/:id"
               element={<StudentDetails />}
             />
+
           </Routes>
 
         </div>
+
       </div>
+
     </BrowserRouter>
   );
 }

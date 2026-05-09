@@ -4,10 +4,13 @@ import { supabase } from "../supabase";
 import PaymentCard from "../components/PaymentCard";
 
 function StudentDetails() {
+
   const { id } = useParams();
 
   const [student, setStudent] = useState(null);
-  const [payments, setPayments] = useState([]);
+
+  const [payments, setPayments] =
+    useState([]);
 
   useEffect(() => {
     fetchStudent();
@@ -15,6 +18,7 @@ function StudentDetails() {
   }, []);
 
   const fetchStudent = async () => {
+
     const { data } = await supabase
       .from("students")
       .select("*")
@@ -25,11 +29,11 @@ function StudentDetails() {
   };
 
   const fetchPayments = async () => {
+
     const { data } = await supabase
       .from("payments")
       .select("*")
-      .eq("student_id", id)
-      .order("year", { ascending: false });
+      .eq("student_id", id);
 
     setPayments(data);
   };
@@ -42,24 +46,51 @@ function StudentDetails() {
     <div>
 
       <div className="student-detail-card">
-        <h2>{student.name}</h2>
 
-        <p>{student.course}</p>
+        <h1>{student.name}</h1>
 
         <p>
-          Monthly Fee: ₹{student.monthly_fee}
+          Instrument: {student.instrument}
         </p>
+
+        <p>
+          Phone: {student.phone}
+        </p>
+
+        <p>
+          DOB: {student.dob}
+        </p>
+
+        <p>
+          Address: {student.address}
+        </p>
+
+        <p>
+          Start Date: {student.start_date}
+        </p>
+
+        <p>
+          Monthly Fee:
+          ₹{student.monthly_fee}
+        </p>
+
       </div>
 
-      <h2>Payment History</h2>
+      <h2 className="section-title">
+        Payment History
+      </h2>
 
       <div className="students-grid">
+
         {payments.map((payment) => (
+
           <PaymentCard
             key={payment.id}
             payment={payment}
           />
+
         ))}
+
       </div>
 
     </div>

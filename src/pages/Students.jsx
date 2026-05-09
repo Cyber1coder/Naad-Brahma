@@ -1,50 +1,115 @@
 // src/pages/Students.jsx
 
 import { useEffect, useState } from "react";
+
 import { supabase } from "../supabase";
+
 import StudentCard from "../components/StudentCard";
 
 function Students() {
-  const [students, setStudents] = useState([]);
 
-  const [name, setName] = useState("");
-  const [course, setCourse] = useState("");
-  const [fee, setFee] = useState("");
+  const [students, setStudents] =
+    useState([]);
+
+  const [name, setName] =
+    useState("");
+
+  const [dob, setDob] =
+    useState("");
+
+  const [address, setAddress] =
+    useState("");
+
+  const [phone, setPhone] =
+    useState("");
+
+  const [instrument, setInstrument] =
+    useState("");
+
+  const [startDate, setStartDate] =
+    useState("");
+
+  const [fee, setFee] =
+    useState("");
 
   useEffect(() => {
     fetchStudents();
   }, []);
 
+  // FETCH STUDENTS
+
   const fetchStudents = async () => {
-    const { data } = await supabase
-      .from("students")
-      .select("*")
-      .order("id", { ascending: false });
+
+    const { data, error } =
+      await supabase
+        .from("students")
+        .select("*")
+        .order("id", {
+          ascending: false,
+        });
+
+    if (error) {
+      console.log(error);
+      return;
+    }
 
     setStudents(data);
   };
 
+  // ADD STUDENT
+
   const addStudent = async () => {
-    if (!name || !course || !fee) {
-      return alert("Fill all fields");
+
+    if (
+      !name ||
+      !dob ||
+      !address ||
+      !phone ||
+      !instrument ||
+      !startDate ||
+      !fee
+    ) {
+      alert("Fill all fields");
+      return;
     }
 
-    await supabase.from("students").insert([
-      {
-        name,
-        course,
-        monthly_fee: fee,
-      },
-    ]);
+    const { error } =
+      await supabase
+        .from("students")
+        .insert([
+          {
+            name,
+            dob,
+            address,
+            phone,
+            instrument,
+            start_date: startDate,
+            monthly_fee: fee,
+          },
+        ]);
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    // CLEAR FORM
 
     setName("");
-    setCourse("");
+    setDob("");
+    setAddress("");
+    setPhone("");
+    setInstrument("");
+    setStartDate("");
     setFee("");
 
     fetchStudents();
   };
 
+  // DELETE STUDENT
+
   const deleteStudent = async (id) => {
+
     await supabase
       .from("students")
       .delete()
@@ -54,46 +119,144 @@ function Students() {
   };
 
   return (
+
     <div>
 
+      {/* FORM */}
+
       <div className="form-card">
+
         <h2>Add Student</h2>
 
-        <input
-          placeholder="Student Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <div className="input-group">
+          <label>Student Name</label>
 
-        <select
-          value={course}
-          onChange={(e) => setCourse(e.target.value)}
-        >
-          <option value="">Select Course</option>
-          <option value="Flute">Flute</option>
-          <option value="Tabla">Tabla</option>
-        </select>
+          <input
+            placeholder="Enter full name"
+            value={name}
+            onChange={(e) =>
+              setName(e.target.value)
+            }
+          />
+        </div>
 
-        <input
-          type="number"
-          placeholder="Monthly Fee"
-          value={fee}
-          onChange={(e) => setFee(e.target.value)}
-        />
+        <div className="input-group">
+          <label>Date of Birth</label>
+
+          <input
+            type="date"
+            value={dob}
+            onChange={(e) =>
+              setDob(e.target.value)
+            }
+          />
+        </div>
+
+        <div className="input-group">
+          <label>Address</label>
+
+          <input
+            placeholder="Enter address"
+            value={address}
+            onChange={(e) =>
+              setAddress(e.target.value)
+            }
+          />
+        </div>
+
+        <div className="input-group">
+          <label>Phone Number</label>
+
+          <input
+            placeholder="Enter phone number"
+            value={phone}
+            onChange={(e) =>
+              setPhone(e.target.value)
+            }
+          />
+        </div>
+
+        <div className="input-group">
+
+          <label>Instrument</label>
+
+          <select
+            value={instrument}
+            onChange={(e) =>
+              setInstrument(e.target.value)
+            }
+          >
+            <option value="">
+              Select Instrument
+            </option>
+
+            <option value="Flute">
+              Flute
+            </option>
+
+            <option value="Tabla">
+              Tabla
+            </option>
+
+          </select>
+
+        </div>
+
+        <div className="input-group">
+          <label>Joining Date</label>
+
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) =>
+              setStartDate(e.target.value)
+            }
+          />
+        </div>
+
+        <div className="input-group">
+          <label>Monthly Fee</label>
+
+          <input
+            type="number"
+            placeholder="Enter monthly fee"
+            value={fee}
+            onChange={(e) =>
+              setFee(e.target.value)
+            }
+          />
+        </div>
 
         <button onClick={addStudent}>
           Add Student
         </button>
+
       </div>
 
+      {/* STUDENTS */}
+
       <div className="students-grid">
-        {students.map((student) => (
-          <StudentCard
-            key={student.id}
-            student={student}
-            deleteStudent={deleteStudent}
-          />
-        ))}
+
+        {students.length === 0 ? (
+
+          <h2>
+            No students added yet
+          </h2>
+
+        ) : (
+
+          students.map((student) => (
+
+            <StudentCard
+              key={student.id}
+              student={student}
+              deleteStudent={deleteStudent}
+            />
+
+          ))
+
+        )}
+
       </div>
 
     </div>
