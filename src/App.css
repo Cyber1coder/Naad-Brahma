@@ -420,11 +420,7 @@ body{
     1px solid rgba(255,255,255,0.05);
 }
 
-.
-/* SELECT FIX */
-.form-card input::placeholder{
-  color:#94a3b8;
-}
+
 
 /* SELECT FIX */
 
