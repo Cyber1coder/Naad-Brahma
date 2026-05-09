@@ -1,7 +1,10 @@
+// src/pages/Unpaid.jsx
+
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
 
 function Unpaid() {
+
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
@@ -9,76 +12,120 @@ function Unpaid() {
   }, []);
 
   const fetchUnpaidStudents = async () => {
-    const currentMonth = new Date().getMonth() + 1;
-    const currentYear = new Date().getFullYear();
 
-    // all students
-    const { data: studentsData } = await supabase
-      .from("students")
-      .select("*");
+    const currentMonth =
+      new Date().getMonth() + 1;
 
-    // paid students this month
-    const { data: paymentsData } = await supabase
-      .from("payments")
-      .select("*")
-      .eq("month", currentMonth)
-      .eq("year", currentYear);
+    const currentYear =
+      new Date().getFullYear();
 
-    const paidStudentIds = paymentsData.map(
-      (payment) => payment.student_id
-    );
+    // ALL STUDENTS
 
-    const unpaidStudents = studentsData.filter(
-      (student) => !paidStudentIds.includes(student.id)
-    );
+    const { data: studentsData } =
+      await supabase
+        .from("students")
+        .select("*");
+
+    // PAID STUDENTS
+
+    const { data: paymentsData } =
+      await supabase
+        .from("payments")
+        .select("*")
+        .eq("month", currentMonth)
+        .eq("year", currentYear);
+
+    const paidStudentIds =
+      paymentsData.map(
+        (payment) => payment.student_id
+      );
+
+    // FILTER UNPAID
+
+    const unpaidStudents =
+      studentsData.filter(
+        (student) =>
+          !paidStudentIds.includes(student.id)
+      );
 
     setStudents(unpaidStudents);
   };
 
   const markPaid = async (student) => {
-    const currentMonth = new Date().getMonth() + 1;
-    const currentYear = new Date().getFullYear();
 
-    await supabase.from("payments").insert([
-      {
-        student_id: student.id,
-        month: currentMonth,
-        year: currentYear,
-        total_fee: student.monthly_fee,
-        fees_given: student.monthly_fee,
-        remaining: 0,
-        payment_mode: "Cash",
-      },
-    ]);
+    const currentMonth =
+      new Date().getMonth() + 1;
+
+    const currentYear =
+      new Date().getFullYear();
+
+    const { error } = await supabase
+      .from("payments")
+      .insert([
+        {
+          student_id: student.id,
+
+          month: currentMonth,
+          year: currentYear,
+
+          total_fee: student.monthly_fee,
+
+          fees_given: student.monthly_fee,
+
+          remaining: 0,
+
+          payment_mode: "Cash",
+        },
+      ]);
+
+    if (error) {
+      console.log(error);
+      alert("Payment failed");
+      return;
+    }
 
     fetchUnpaidStudents();
   };
 
   return (
     <div>
-      <h2>Unpaid Students</h2>
+
+      <h1 className="page-title">
+        Unpaid Students
+      </h1>
 
       <div className="students-grid">
+
         {students.map((student) => (
+
           <div
             key={student.id}
             className="student-card"
           >
+
             <h3>{student.name}</h3>
 
             <p>
-              {student.course} • ₹{student.monthly_fee}
+              {student.course}
+            </p>
+
+            <p>
+              ₹{student.monthly_fee}
             </p>
 
             <button
-              className="view-btn"
+              className="pay-btn"
               onClick={() => markPaid(student)}
             >
-              Mark Paid
+              Mark As Paid
             </button>
+
           </div>
+
         ))}
+
       </div>
+
     </div>
   );
 }

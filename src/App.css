@@ -331,3 +331,96 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* BUTTONS */
+
+.primary-btn,
+.secondary-btn,
+.view-btn,
+.delete-btn,
+.paid-btn,
+.pay-btn {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+/* PRIMARY */
+
+.primary-btn,
+.view-btn,
+.pay-btn {
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
+
+  color: white;
+
+  box-shadow:
+    0 8px 18px rgba(37,99,235,0.25);
+}
+
+.primary-btn:hover,
+.view-btn:hover,
+.pay-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* SECONDARY */
+
+.secondary-btn {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  backdrop-filter: blur(10px);
+}
+
+.secondary-btn:hover {
+  background: rgba(255,255,255,0.18);
+}
+
+/* DELETE */
+
+.delete-btn {
+  background: linear-gradient(
+    135deg,
+    #ef4444,
+    #dc2626
+  );
+
+  color: white;
+
+  box-shadow:
+    0 8px 18px rgba(239,68,68,0.22);
+}
+
+.delete-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* PAID */
+
+.paid-btn {
+  width: 100%;
+  margin-top: 14px;
+
+  background: linear-gradient(
+    135deg,
+    #22c55e,
+    #16a34a
+  );
+
+  color: white;
+
+  box-shadow:
+    0 8px 18px rgba(34,197,94,0.22);
+}
+
+.paid-btn:hover {
+  transform: translateY(-2px);
+}
