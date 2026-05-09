@@ -5,7 +5,11 @@ import { supabase } from "../supabase";
 
 function Unpaid() {
 
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] =
+    useState([]);
+
+  const [branchFilter, setBranchFilter] =
+    useState("All");
 
   useEffect(() => {
     fetchUnpaidStudents();
@@ -19,14 +23,14 @@ function Unpaid() {
     const currentYear =
       new Date().getFullYear();
 
-    // ALL STUDENTS
+    // STUDENTS
 
     const { data: studentsData } =
       await supabase
         .from("students")
         .select("*");
 
-    // PAID STUDENTS
+    // PAYMENTS
 
     const { data: paymentsData } =
       await supabase
@@ -37,21 +41,27 @@ function Unpaid() {
 
     const paidStudentIds =
       paymentsData.map(
-        (payment) => payment.student_id
+        (payment) =>
+          payment.student_id
       );
-
-    // FILTER UNPAID
 
     const unpaidStudents =
       studentsData.filter(
         (student) =>
-          !paidStudentIds.includes(student.id)
+          !paidStudentIds.includes(
+            student.id
+          )
       );
 
     setStudents(unpaidStudents);
   };
 
-  const markPaid = async (student) => {
+  // MARK PAID
+
+  const markPaid = async (
+    student,
+    paymentMode
+  ) => {
 
     const currentMonth =
       new Date().getMonth() + 1;
@@ -59,24 +69,28 @@ function Unpaid() {
     const currentYear =
       new Date().getFullYear();
 
-    const { error } = await supabase
-      .from("payments")
-      .insert([
-        {
-          student_id: student.id,
+    const { error } =
+      await supabase
+        .from("payments")
+        .insert([
+          {
+            student_id: student.id,
 
-          month: currentMonth,
-          year: currentYear,
+            month: currentMonth,
+            year: currentYear,
 
-          total_fee: student.monthly_fee,
+            total_fee:
+              student.monthly_fee,
 
-          fees_given: student.monthly_fee,
+            fees_given:
+              student.monthly_fee,
 
-          remaining: 0,
+            remaining: 0,
 
-          payment_mode: "Cash",
-        },
-      ]);
+            payment_mode:
+              paymentMode,
+          },
+        ]);
 
     if (error) {
       console.log(error);
@@ -87,42 +101,121 @@ function Unpaid() {
     fetchUnpaidStudents();
   };
 
+  // FILTER
+
+  const filteredStudents =
+    branchFilter === "All"
+      ? students
+      : students.filter(
+          (student) =>
+            student.branch ===
+            branchFilter
+        );
+
   return (
+
     <div>
 
       <h1 className="page-title">
         Unpaid Students
       </h1>
 
+      {/* FILTER */}
+
+      <div className="branch-filter">
+
+        <button
+          onClick={() =>
+            setBranchFilter("All")
+          }
+        >
+          All
+        </button>
+
+        <button
+          onClick={() =>
+            setBranchFilter(
+              "Shahupuri"
+            )
+          }
+        >
+          Shahupuri
+        </button>
+
+        <button
+          onClick={() =>
+            setBranchFilter(
+              "Sane Guruji"
+            )
+          }
+        >
+          Sane Guruji
+        </button>
+
+      </div>
+
+      {/* STUDENTS */}
+
       <div className="students-grid">
 
-        {students.map((student) => (
+        {filteredStudents.map(
+          (student) => (
 
-          <div
-            key={student.id}
-            className="student-card"
-          >
-
-            <h3>{student.name}</h3>
-
-            <p>
-              {student.course}
-            </p>
-
-            <p>
-              ₹{student.monthly_fee}
-            </p>
-
-            <button
-              className="pay-btn"
-              onClick={() => markPaid(student)}
+            <div
+              key={student.id}
+              className="student-card"
             >
-              Mark As Paid
-            </button>
 
-          </div>
+              <h3>
+                {student.name}
+              </h3>
 
-        ))}
+              <p>
+                🎵 {student.instrument}
+              </p>
+
+              <p>
+                🏢 {student.branch}
+              </p>
+
+              <p>
+                ₹{
+                  student.monthly_fee
+                }
+              </p>
+
+              <div className="payment-buttons">
+
+                <button
+                  className="pay-btn"
+                  onClick={() =>
+                    markPaid(
+                      student,
+                      "Cash"
+                    )
+                  }
+                >
+                  Cash
+                </button>
+
+                <button
+                  className="upi-btn"
+                  onClick={() =>
+                    markPaid(
+                      student,
+                      "UPI"
+                    )
+                  }
+                >
+                  UPI
+                </button>
+
+              </div>
+
+            </div>
+
+          )
+        )}
 
       </div>
 

@@ -644,3 +644,126 @@ body{
 
   font-weight:600;
 }
+
+/* PAGE TITLE */
+
+.page-title{
+  font-size:56px;
+
+  font-weight:800;
+
+  margin-bottom:28px;
+
+  color:white;
+}
+
+/* BRANCH FILTER */
+
+.branch-filter{
+  display:flex;
+
+  gap:14px;
+
+  margin-bottom:32px;
+
+  flex-wrap:wrap;
+}
+
+.branch-filter button{
+  border:none;
+
+  padding:14px 22px;
+
+  border-radius:16px;
+
+  background:
+    rgba(255,255,255,0.08);
+
+  color:white;
+
+  font-size:15px;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.25s ease;
+
+  border:
+    1px solid rgba(255,255,255,0.06);
+
+  backdrop-filter:blur(12px);
+}
+
+.branch-filter button:hover{
+  transform:translateY(-2px);
+
+  background:
+    rgba(255,255,255,0.12);
+}
+
+/* ACTIVE LOOK */
+
+.branch-filter button.active{
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #1d4ed8
+    );
+
+  box-shadow:
+    0 12px 24px rgba(37,99,235,0.3);
+}
+
+/* PAYMENT BUTTONS */
+
+.payment-buttons{
+  display:flex;
+
+  gap:12px;
+
+  margin-top:18px;
+}
+
+.pay-btn,
+.upi-btn{
+  flex:1;
+
+  border:none;
+
+  padding:14px;
+
+  border-radius:16px;
+
+  color:white;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:0.25s ease;
+}
+
+.pay-btn{
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #1d4ed8
+    );
+}
+
+.upi-btn{
+  background:
+    linear-gradient(
+      135deg,
+      #9333ea,
+      #7e22ce
+    );
+}
+
+.pay-btn:hover,
+.upi-btn:hover{
+  transform:translateY(-2px);
+}

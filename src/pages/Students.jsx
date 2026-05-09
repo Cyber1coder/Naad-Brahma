@@ -26,6 +26,9 @@ function Students() {
   const [instrument, setInstrument] =
     useState("");
 
+  const [branch, setBranch] =
+    useState("");
+
   const [startDate, setStartDate] =
     useState("");
 
@@ -36,7 +39,7 @@ function Students() {
     fetchStudents();
   }, []);
 
-  // FETCH STUDENTS
+  // FETCH
 
   const fetchStudents = async () => {
 
@@ -66,6 +69,7 @@ function Students() {
       !address ||
       !phone ||
       !instrument ||
+      !branch ||
       !startDate ||
       !fee
     ) {
@@ -83,6 +87,7 @@ function Students() {
             address,
             phone,
             instrument,
+            branch,
             start_date: startDate,
             monthly_fee: fee,
           },
@@ -93,20 +98,21 @@ function Students() {
       return;
     }
 
-    // CLEAR FORM
+    // CLEAR
 
     setName("");
     setDob("");
     setAddress("");
     setPhone("");
     setInstrument("");
+    setBranch("");
     setStartDate("");
     setFee("");
 
     fetchStudents();
   };
 
-  // DELETE STUDENT
+  // DELETE
 
   const deleteStudent = async (id) => {
 
@@ -196,6 +202,32 @@ function Students() {
 
             <option value="Tabla">
               Tabla
+            </option>
+
+          </select>
+
+        </div>
+
+        <div className="input-group">
+
+          <label>Branch</label>
+
+          <select
+            value={branch}
+            onChange={(e) =>
+              setBranch(e.target.value)
+            }
+          >
+            <option value="">
+              Select Branch
+            </option>
+
+            <option value="Shahupuri">
+              Shahupuri
+            </option>
+
+            <option value="Sane Guruji">
+              Sane Guruji
             </option>
 
           </select>

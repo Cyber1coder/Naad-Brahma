@@ -23,6 +23,10 @@ function StudentCard({
             🎵 {student.instrument}
           </p>
 
+          <p>
+            🏢 {student.branch}
+          </p>
+
         </div>
 
         <div className="student-fee">
