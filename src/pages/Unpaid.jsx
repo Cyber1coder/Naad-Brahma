@@ -125,7 +125,7 @@ function Unpaid() {
         Unpaid Students
       </h1>
 
-      {/* FILTERS */}
+      {/* MONTH + YEAR */}
 
       <div className="filters-row">
 
@@ -138,18 +138,29 @@ function Unpaid() {
           }
         >
 
-          {[...Array(12)].map(
-            (_, i) => (
+          {[
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+          ].map((month, index) => (
 
-              <option
-                key={i + 1}
-                value={i + 1}
-              >
-                Month {i + 1}
-              </option>
+            <option
+              key={index + 1}
+              value={index + 1}
+            >
+              {month}
+            </option>
 
-            )
-          )}
+          ))}
 
         </select>
 
@@ -227,6 +238,22 @@ function Unpaid() {
           Sane Guruji
         </button>
 
+        <button
+          className={
+            branchFilter ===
+            "Kagal"
+            ? "active"
+            : ""
+          }
+          onClick={() =>
+            setBranchFilter(
+              "Kagal"
+            )
+          }
+        >
+          Kagal
+        </button>
+
       </div>
 
       {/* STUDENTS */}
@@ -246,20 +273,15 @@ function Unpaid() {
               </h3>
 
               <p>
-                🎵
-                {" "}
-                {student.instrument}
+                🎵 {student.instrument}
               </p>
 
               <p>
-                🏢
-                {" "}
-                {student.branch}
+                🏢 {student.branch}
               </p>
 
               <p>
-                ₹
-                {student.monthly_fee}
+                ₹{student.monthly_fee}
               </p>
 
               <div className="payment-buttons">

@@ -61,54 +61,54 @@ function Students() {
 
   // ADD STUDENT
 
-const addStudent = async () => {
+  const addStudent = async () => {
 
-  if (
-    !name ||
-    !dob ||
-    !address ||
-    !phone ||
-    !instrument ||
-    !branch ||
-    !startDate ||
-    !fee
-  ) {
-    alert("Fill all fields");
-    return;
-  }
+    if (
+      !name ||
+      !dob ||
+      !address ||
+      !phone ||
+      !instrument ||
+      !branch ||
+      !startDate ||
+      !fee
+    ) {
+      alert("Fill all fields");
+      return;
+    }
 
-  const { error } =
-    await supabase
-      .from("students")
-      .insert([
-        {
-          name,
-          dob,
-          address,
-          phone,
-          instrument,
-          branch,
-          start_date: startDate,
-          monthly_fee: fee,
-        },
-      ]);
+    const { error } =
+      await supabase
+        .from("students")
+        .insert([
+          {
+            name,
+            dob,
+            address,
+            phone,
+            instrument,
+            branch,
+            start_date: startDate,
+            monthly_fee: fee,
+          },
+        ]);
 
-  if (error) {
-    console.log(error);
-    return;
-  }
+    if (error) {
+      console.log(error);
+      return;
+    }
 
-  fetchStudents();
+    fetchStudents();
 
-  setName("");
-  setDob("");
-  setAddress("");
-  setPhone("");
-  setInstrument("");
-  setBranch("");
-  setStartDate("");
-  setFee("");
-};
+    setName("");
+    setDob("");
+    setAddress("");
+    setPhone("");
+    setInstrument("");
+    setBranch("");
+    setStartDate("");
+    setFee("");
+  };
 
   // DELETE
 
@@ -180,6 +180,8 @@ const addStudent = async () => {
           />
         </div>
 
+        {/* INSTRUMENT */}
+
         <div className="input-group">
 
           <label>Instrument</label>
@@ -202,9 +204,15 @@ const addStudent = async () => {
               Tabla
             </option>
 
+            <option value="Sitar">
+              Sitar
+            </option>
+
           </select>
 
         </div>
+
+        {/* BRANCH */}
 
         <div className="input-group">
 
@@ -226,6 +234,10 @@ const addStudent = async () => {
 
             <option value="Sane Guruji">
               Sane Guruji
+            </option>
+
+            <option value="Kagal">
+              Kagal
             </option>
 
           </select>
