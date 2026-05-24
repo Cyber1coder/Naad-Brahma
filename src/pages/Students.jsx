@@ -239,6 +239,9 @@ function Students() {
             <option value="Kagal">
               Kagal
             </option>
+            <option value="Other">
+              Other
+            </option>
 
           </select>
 
